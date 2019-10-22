@@ -7,6 +7,6 @@ resource "aws_instance" "rpa-management" {
   tags = {
     Name        = "rpa-vdi"
     Envrionment = "poc"
-    Owner       = "gss"
+    Owner       = "gss+yp"
   }
 }
