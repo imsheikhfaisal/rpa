@@ -4,8 +4,6 @@ resource "aws_instance" "rpa_vdi" {
   subnet_id     = "${aws_subnet.rpa-exposed.id}"
   volume_size   = "100"
 
-
-
   tags = {
     Name        = "rpa-vdi"
     Envrionment = "poc"
