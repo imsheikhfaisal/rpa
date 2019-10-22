@@ -1,5 +1,6 @@
-resource "aws_security_group" "sg-management" {
-  name        = "sg-management"
+#...............SG for VDI
+resource "aws_security_group" "management" {
+  name        = "management"
   description = "Management for Remote Access"
   vpc_id      = "${var.rpa_vpc_id}"
   ingress {
@@ -8,50 +9,44 @@ resource "aws_security_group" "sg-management" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   ingress {
-    from_port   = 3389
-    to_port     = 3389
+    from_port   = 443
+    to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
 
 }
 
-resource "aws_security_group" "sg-nonexposed" {
-  name        = "sg-nonexposed"
-  description = "SG for Nonexposed"
+#---------SG for Orchestorator
+
+resource "aws_security_group" "orchestrator" {
+  name        = "management"
+  description = "Nonexsped Orchestorator Server"
   vpc_id      = "${var.rpa_vpc_id}"
   ingress {
     from_port   = 3389
     to_port     = 3389
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["190.160.4.36/32"]
   }
-
-}
-
-resource "aws_security_group" "sg-secure" {
-  name        = "sg-secure"
-  description = "SG for Secure"
-  vpc_id      = "${var.rpa_vpc_id}"
   ingress {
-    from_port   = 3389
-    to_port     = 3389
+    from_port   = 5601
+    to_port     = 5601
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["190.160.4.36/32"]
   }
-
-}
-
-resource "aws_security_group" "sg-activedir" {
-  name        = "sg-secure"
-  description = "SG for activedir"
-  vpc_id      = "${var.rpa_vpc_id}"
-  ingress {
-    from_port   = 3389
-    to_port     = 3389
-    protocol    = "tcp"
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 

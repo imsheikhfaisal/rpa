@@ -124,3 +124,9 @@ resource "aws_internet_gateway" "rpa-igw" {
     Owner       = "gss"
   }
 }
+#--------------Nat gateway
+resource "aws_nat_gateway" "rpa-nat" {
+  vpc_id        = "${aws_vpc.rpa-vpc.id}"
+  allocation_id = "${aws_eip.natgw.id}"
+  subnet_id     = "${aws_subnet.rpa-management.id}"
+}

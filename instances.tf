@@ -1,7 +1,8 @@
+#-----------------VDI-management----------
 resource "aws_instance" "rpa_vdi" {
   instance_type = "t2.large"
   ami           = "${var.win_ami}"
-  subnet_id     = "${aws_subnet.rpa-exposed.id}"
+  subnet_id     = "${aws_subnet.rpa-management.id}"
 
   root_block_device {
     volume_type = "gp2"
@@ -13,14 +14,12 @@ resource "aws_instance" "rpa_vdi" {
     Owner       = "gss"
   }
   key_name               = "${aws_key_pair.sshkey.id}"
-  vpc_security_group_ids = ["${aws_security_group.sg-management.id}"]
-
+  vpc_security_group_ids = ["${aws_security_group.management.id}"]
 
 }
 
-
-
-resource "aws_instance" "rpa_orch" {
+#----------------Orchestorator-nonexposed-------
+resource "aws_instance" "rpa_orchestrator" {
   instance_type = "t2.large"
   ami           = "${var.win_ami}"
   subnet_id     = "${aws_subnet.rpa-nonexposed.id}"
@@ -30,52 +29,10 @@ resource "aws_instance" "rpa_orch" {
     volume_size = "200"
   }
   tags = {
-    Name        = "rpa-orch"
+    Name        = "rpa-rpa_orchestrator"
     Envrionment = "poc"
     Owner       = "gss"
   }
   key_name               = "${aws_key_pair.sshkey.id}"
-  vpc_security_group_ids = ["${aws_security_group.sg-nonexposed.id}"]
-
-
-}
-
-
-resource "aws_instance" "rpa_index" {
-  instance_type = "t2.large"
-  ami           = "${var.win_ami}"
-  subnet_id     = "${aws_subnet.rpa-secure.id}"
-
-  root_block_device {
-    volume_type = "gp2"
-    volume_size = "400"
-  }
-  tags = {
-    Name        = "rpa-index"
-    Envrionment = "poc"
-    Owner       = "gss"
-  }
-  key_name               = "${aws_key_pair.sshkey.id}"
-  vpc_security_group_ids = ["${aws_security_group.sg-secure.id}"]
-
-}
-
-
-resource "aws_instance" "rpa_activedir" {
-  instance_type = "t2.large"
-  ami           = "${var.win_ami}"
-  subnet_id     = "${aws_subnet.rpa-secure.id}"
-
-  root_block_device {
-    volume_type = "gp2"
-    volume_size = "400"
-  }
-  tags = {
-    Name        = "rpa-index"
-    Envrionment = "poc"
-    Owner       = "gss"
-  }
-  key_name               = "${aws_key_pair.sshkey.id}"
-  vpc_security_group_ids = ["${aws_security_group.sg-activedir.id}"]
-
+  vpc_security_group_ids = ["${aws_security_group.orchestrator.id}"]
 }
