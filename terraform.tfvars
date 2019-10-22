@@ -1,0 +1,8 @@
+region         = "eu-west-1"
+rpa-vpc        = "190.160.0.0/16"
+rpa-exposed    = "190.160.1.0/24"
+rpa-nonexposed = "190.160.2.0/24"
+rpa-secure     = "190.160.3.0/24"
+rpa-management = "190.160.4.0/24"
+domain-name    = "gssrpapoc.com"
+short-name     = "GSSRPAPOC"
