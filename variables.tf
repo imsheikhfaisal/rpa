@@ -8,6 +8,9 @@ variable "domain-name" {}
 variable "short-name" {}
 variable "win_ami" {}
 variable "rpa_vpc_id" {}
-variable "rpa-exposed-sub" {
-  default = ""
+variable "key_name" {
+  default = "id_rsa.pub"
+}
+variable "public_key_path" {
+  default = "/root/rpatera/sshkey/id_rsa.pub"
 }
