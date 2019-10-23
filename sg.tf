@@ -28,8 +28,8 @@ resource "aws_security_group" "management" {
 #---------SG for Orchestorator
 
 resource "aws_security_group" "orchestrator" {
-  name        = "management"
-  description = "Nonexsped Orchestorator Server"
+  name        = "orchestrator"
+  description = "Nonexposed Orchestorator Server"
   vpc_id      = "${var.rpa_vpc_id}"
   ingress {
     from_port   = 3389
@@ -43,6 +43,81 @@ resource "aws_security_group" "orchestrator" {
     protocol    = "tcp"
     cidr_blocks = ["190.160.4.36/32"]
   }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+}
+
+#................SG for index_name
+
+resource "aws_security_group" "index" {
+  name        = "index"
+  description = "Nonexposed index Server"
+  vpc_id      = "${var.rpa_vpc_id}"
+  ingress {
+    from_port   = 3389
+    to_port     = 3389
+    protocol    = "tcp"
+    cidr_blocks = ["190.160.4.36/32"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+}
+
+#--------------SG for MSSQL
+
+
+resource "aws_security_group" "db" {
+  name        = "db"
+  description = "Secure DB Server"
+  vpc_id      = "${var.rpa_vpc_id}"
+  ingress {
+    from_port   = 3389
+    to_port     = 3389
+    protocol    = "tcp"
+    cidr_blocks = ["190.160.2.42/32"]
+  }
+  ingress {
+    from_port   = 1433
+    to_port     = 1433
+    protocol    = "tcp"
+    cidr_blocks = ["190.160.2.42/32"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+}
+
+
+#--------------SG for proxy
+
+
+resource "aws_security_group" "proxy" {
+  name        = "proxy"
+  description = "Exposed Proxy Server"
+  vpc_id      = "${var.rpa_vpc_id}"
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["190.160.4.36/32"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0

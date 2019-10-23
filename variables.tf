@@ -5,6 +5,7 @@ variable "rpa-nonexposed" {}
 variable "rpa-secure" {}
 variable "rpa-management" {}
 variable "win_ami" {}
+variable "linux_ami" {}
 variable "rpa_vpc_id" {}
 variable "key_name" {
   default = "id_rsa.pub"

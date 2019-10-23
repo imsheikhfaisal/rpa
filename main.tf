@@ -75,6 +75,10 @@ resource "aws_route_table_association" "rpa-exposed" {
 }
 resource "aws_route_table" "rpa-nonexposed" {
   vpc_id = "${aws_vpc.rpa-vpc.id}"
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = "${aws_nat_gateway.rpa-nat.id}"
+  }
   tags = {
     Name        = "rpa-nonexposed"
     Envrionment = "poc"
@@ -126,7 +130,6 @@ resource "aws_internet_gateway" "rpa-igw" {
 }
 #--------------Nat gateway
 resource "aws_nat_gateway" "rpa-nat" {
-  vpc_id        = "${aws_vpc.rpa-vpc.id}"
   allocation_id = "${aws_eip.natgw.id}"
   subnet_id     = "${aws_subnet.rpa-management.id}"
 }
