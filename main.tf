@@ -1,3 +1,4 @@
+#-------------Provider Details
 provider "aws" {
   profile = "default"
   region  = var.region
@@ -75,10 +76,10 @@ resource "aws_route_table_association" "rpa-exposed" {
 }
 resource "aws_route_table" "rpa-nonexposed" {
   vpc_id = "${aws_vpc.rpa-vpc.id}"
-  route {
-    cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = "${aws_nat_gateway.rpa-nat.id}"
-  }
+  # route {
+  #  cidr_block     = "0.0.0.0/0"
+  #  nat_gateway_id = "${aws_nat_gateway.rpa-nat.id}"
+  #}
   tags = {
     Name        = "rpa-nonexposed"
     Envrionment = "poc"

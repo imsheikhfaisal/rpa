@@ -9,19 +9,17 @@ resource "aws_security_group" "management" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  tags = {
+    Name        = "rpa_management"
+    Envrionment = "poc"
+    Owner       = "gss"
+  }
 
 }
 
@@ -37,12 +35,13 @@ resource "aws_security_group" "orchestrator" {
     protocol    = "tcp"
     cidr_blocks = ["190.160.4.36/32"]
   }
-  ingress {
-    from_port   = 5601
-    to_port     = 5601
-    protocol    = "tcp"
-    cidr_blocks = ["190.160.4.36/32"]
-  }
+}
+ingress {
+  from_port   = 443
+  to_port     = 443
+  protocol    = "tcp"
+  cidr_blocks = ["190.160.1.40/32"]
+}
   egress {
     from_port   = 0
     to_port     = 0
@@ -64,7 +63,18 @@ resource "aws_security_group" "index" {
     protocol    = "tcp"
     cidr_blocks = ["190.160.4.36/32"]
   }
-
+  ingress {
+    from_port   = 9200
+    to_port     = 9200
+    protocol    = "tcp"
+    cidr_blocks = ["190.160.2.23/32"]
+  }
+  ingress {
+    from_port   = 5601
+    to_port     = 5601
+    protocol    = "tcp"
+    cidr_blocks = ["190.160.4.36/32", "190.160.1.40/32"]
+  }
   egress {
     from_port   = 0
     to_port     = 0
@@ -93,6 +103,12 @@ resource "aws_security_group" "db" {
     protocol    = "tcp"
     cidr_blocks = ["190.160.2.42/32"]
   }
+  ingress {
+    from_port   = 1433
+    to_port     = 1433
+    protocol    = "tcp"
+    cidr_blocks = ["190.160.2.23/32"]
+  }
 
   egress {
     from_port   = 0
@@ -115,8 +131,15 @@ resource "aws_security_group" "proxy" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["190.160.4.36/32"]
+    cidr_blocks = ["190.160.4.36/32", "0.0.0.0/0"]
   }
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
 
   egress {
     from_port   = 0

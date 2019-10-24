@@ -80,7 +80,7 @@ resource "aws_instance" "rpa_db" {
 #....................Proxy
 
 resource "aws_instance" "rpa_proxy" {
-  instance_type = "t2.large"
+  instance_type = "t2.xlarge"
   ami           = "${var.linux_ami}"
   subnet_id     = "${aws_subnet.rpa-exposed.id}"
 
